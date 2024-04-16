@@ -24,7 +24,6 @@ public class ContentAPI {
         MultipartFile[] files = request.getFiles("arrayImages").toArray(new MultipartFile[0]);
         return contentService.uploadFilesAndInsertOrUpdate(files, id, chapterId);
     }
-
     @DeleteMapping(value = "/api/content")
     public void delete(@RequestBody ContentDTO dto) {
         contentService.delete(dto.getIds());
