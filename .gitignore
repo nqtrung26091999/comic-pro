@@ -1,2 +1,3 @@
 target/comic-pro-1.0/WEB-INF/lib
 target/comic-pro-1.0.war
+src/main/java/com/example/constant/AWSConstant.java
