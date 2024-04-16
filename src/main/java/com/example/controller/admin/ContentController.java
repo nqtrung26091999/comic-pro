@@ -4,6 +4,7 @@ import com.example.dto.ContentDTO;
 import com.example.service.IChapterService;
 import com.example.service.IComicService;
 import com.example.service.IContentService;
+import com.example.util.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +28,15 @@ public class ContentController {
 
     @RequestMapping(value = "/admin/content", method = RequestMethod.GET)
     private ModelAndView showPage(@RequestParam("comicId") Long comicId,
-                                  @RequestParam("chapterId") Long chapterId) throws GeneralSecurityException, IOException {
+                                  @RequestParam("chapterId") Long chapterId,
+                                  @RequestParam(value = "msg", required = false) String msg) {
         String comicName = comicService.getNameComicById(comicId);
         String chapterName = chapterService.getNameChapterById(chapterId);
         List<ContentDTO> model = contentService.findByChapterId(chapterId);
         ModelAndView mav = new ModelAndView("/admin/content/list");
+        if (msg != null) {
+            mav.addObject("msg", MessageUtils.handleMessage(msg));
+        }
         mav.addObject("comicId", comicId);
         mav.addObject("chapterId", chapterId);
         mav.addObject("comicName", comicName);

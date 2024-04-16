@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class ContentConverter {
     public ContentDTO toDTO(ContentEntity entity) {
         ContentDTO dto = new ContentDTO();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setChapterId(entity.getChapter().getId());
         return dto;

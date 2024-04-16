@@ -10,7 +10,8 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Trang chủ</a></li>
-            <li class="breadcrumb-item"><a href="<c:url value="/admin/chapter?page=1&limit=10&comicId=${comicId}"/>">Danh sách chapter</a></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/admin/chapter?page=1&limit=10&comicId=${comicId}"/>">Danh
+                sách chapter</a></li>
             <li class="breadcrumb-item active">Danh sách ảnh truyện</li>
         </ol>
     </nav>
@@ -18,16 +19,17 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-<%--            <c:if test="${not empty model.msg && not empty model.alert}">--%>
-<%--                <div class="alert alert-${model.alert} alert-dismissible">--%>
-<%--                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--%>
-<%--                        ${model.msg}--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
+            <c:if test="${not empty msg}">
+                <div class="alert alert-${msg.alert} alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        ${msg.message}
+                </div>
+            </c:if>
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Danh sách ảnh truyện</h5>
-                    <a href="<c:url value="/admin/content/edit?chapterId=${chapterId}&comicId=${comicId}" />" title="Add new chapter"
+                    <a href="<c:url value="/admin/content/edit?chapterId=${chapterId}&comicId=${comicId}" />"
+                       title="Add new chapter"
                        style="margin-right: 10px;">
                         <i class="fa-solid fa-square-plus fa-xl"></i>
                     </a>
@@ -57,7 +59,7 @@
                             <c:if test="${not empty model}">
                                 <c:forEach items="${model}" var="item">
                                     <tr>
-                                        <th scope="row"><input type="checkbox" value="${item.id}"></th>
+                                        <th scope="row"><input type="checkbox" name="id" value="${item.id}"></th>
                                         <td>
                                             <img src="${item.name}" alt="" width="150" height="300"/>
                                         </td>
@@ -90,19 +92,18 @@
         data["ids"] = ids;
         data["comicId"] = $("#comicId").val();
         if (ids.length) {
-            deleteChapter(data);
+            deleteContent(data);
         }
     });
 
-    function deleteChapter(data) {
+    function deleteContent(data) {
         $.ajax({
-            url: '/api/chapter',
+            url: '/api/content',
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            success: function (rs) {
-                window.location.href = "/admin/chapter?page=1&limit=10&msg=delete_success&comicId=" + data["comicId"];
-                console.log(rs);
+            success: function () {
+                window.location.href = "/admin/content?comicId=" + ${comicId} +"&chapterId=${chapterId}" + "&msg=delete_success";
             },
             error: function (err) {
                 console.log(err);

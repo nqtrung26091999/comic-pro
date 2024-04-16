@@ -21,8 +21,8 @@ public class ContentAPI {
         return contentService.uploadFilesAndInsertOrUpdate(files, id, chapterId);
     }
 
-    @DeleteMapping(value = "/api/delete")
-    public ResponseEntity<String> delete(@RequestBody ContentDTO dto) {
-        return contentService.delete(dto.getIds());
+    @DeleteMapping(value = "/api/content")
+    public void delete(@RequestBody ContentDTO dto) {
+        contentService.delete(dto.getIds());
     }
 }

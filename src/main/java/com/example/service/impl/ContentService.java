@@ -79,12 +79,11 @@ public class ContentService implements IContentService {
     }
 
     @Override
-    public ResponseEntity<String> delete(long[] ids) {
+    public void delete(long[] ids) {
         if (ids != null) {
             for (long id : ids) {
                 contentRepository.delete(id);
             }
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

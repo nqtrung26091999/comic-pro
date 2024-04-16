@@ -11,8 +11,8 @@ import java.util.List;
 public interface IContentService {
     ContentDTO findAll();
 
-    List<ContentDTO> findByChapterId(Long chapterId) throws GeneralSecurityException, IOException;
+    List<ContentDTO> findByChapterId(Long chapterId);
     List<ContentDTO> uploadFilesAndInsertOrUpdate(MultipartFile[] files, Long id, Long chapterId);
-    ResponseEntity<String> delete(long[] ids);
+    void delete(long[] ids);
 
 }

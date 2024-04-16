@@ -15,7 +15,8 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Home</a></li>
-            <li class="breadcrumb-item"><a href="<c:url value="/admin/content?comicId=${comicId}&chapterId=${chapterId}"/>">Danh sách ảnh
+            <li class="breadcrumb-item"><a
+                    href="<c:url value="/admin/content?comicId=${comicId}&chapterId=${chapterId}"/>">Danh sách ảnh
                 truyện</a>
             </li>
             <c:if test="${not empty model.id}">
@@ -129,8 +130,14 @@
 
     function uploadFile() {
         var formData = new FormData();
+        var message = "";
         var files = $("#inputImages").prop('files');
         var id = $("#id").val();
+        if (id != null) {
+            message = "update";
+        } else {
+            message = "insert";
+        }
         var chapterId = $("#chapterId").val();
         formData.append("id", id);
         formData.append("chapterId", chapterId);
@@ -149,7 +156,7 @@
             success: (rs) => {
                 console.log(rs)
                 if (rs) {
-                    window.location.href = "admin/content?comicId=" + rs["comicId"] + "&chapterId=" + rs["chapterId"];
+                    window.location.href = "admin/content?comicId=" + rs["comicId"] + "&chapterId=" + rs["chapterId"] + "&message=" + message + "_success";
                 }
             },
             error: (e) => {
