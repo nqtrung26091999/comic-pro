@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import com.example.constant.AWSConstant;
+import com.example.constant.SystemConstant;
 import com.example.converter.ChapterConverter;
 import com.example.converter.ContentConverter;
 import com.example.dto.ContentDTO;
@@ -82,6 +83,10 @@ public class ContentService implements IContentService {
     public void delete(long[] ids) {
         if (ids != null) {
             for (long id : ids) {
+                ContentEntity entity = contentRepository.findOne(id);
+                String name = entity.getName();
+                String path = name.substring(name.lastIndexOf(SystemConstant.DIR_PROJECT_NAME_S3));
+                awsClient.deleteFileFromS3(AWSConstant.BUCKET_NAME, path);
                 contentRepository.delete(id);
             }
         }

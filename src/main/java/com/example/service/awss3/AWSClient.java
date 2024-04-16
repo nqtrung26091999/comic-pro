@@ -1,12 +1,12 @@
 package com.example.service.awss3;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.*;
 import com.example.constant.AWSConstant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.amazonaws.services.s3.model.ListObjectsV2Request.*;
 
 @Service
 public class AWSClient {
@@ -67,5 +71,19 @@ public class AWSClient {
             e.printStackTrace();
         }
         return fileUrl;
+    }
+
+    public void deleteFileFromS3(String bucketName ,String path) {
+        S3Object object = s3Client.getObject(bucketName, path);
+        DeleteObjectRequest request = new DeleteObjectRequest(bucketName, object.getKey());
+        s3Client.deleteObject(request);
+    }
+
+    public List<String> listObjects(String bucketName) {
+        ObjectListing objectListing = s3Client.listObjects(bucketName);
+        return objectListing.getObjectSummaries()
+                .stream()
+                .map(S3ObjectSummary::getKey)
+                .collect(Collectors.toList());
     }
 }

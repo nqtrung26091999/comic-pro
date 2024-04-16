@@ -66,18 +66,17 @@
                                     </button>
                                     <input type="file" name="inputImages[]" id="inputImages" style="display: none;"
                                            multiple>
+                                    <button type="button" class="btn btn-primary" id="btnSubmit">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save
+                                    </button>
+                                    <div class="p-2" id="spinner">
+
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label for="name" class="col-sm-2 col-form-label"></label>
                                 <div class="row" id="imageList">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-10">
-                                    <button type="button" class="btn btn-primary" id="btnSubmit">
-                                        <i class="fa-solid fa-floppy-disk"></i> Save
-                                    </button>
                                 </div>
                             </div>
                             <input type="hidden" name="id" id="id" value="${model.id}">
@@ -125,8 +124,12 @@
     }
 
     $("#btnSubmit").on("click", () => {
+        spinner();
         uploadFile();
     });
+    function spinner() {
+        $("#spinner").append('<div class="spinner-border"></div>')
+    }
 
     function uploadFile() {
         var formData = new FormData();
@@ -156,7 +159,7 @@
             success: (rs) => {
                 console.log(rs)
                 if (rs) {
-                    window.location.href = "admin/content?comicId=" + rs["comicId"] + "&chapterId=" + rs["chapterId"] + "&message=" + message + "_success";
+                    window.location.href = "/admin/content?comicId=" + ${comicId} + "&chapterId=" + ${chapterId} + "&msg=" + message + "_success";
                 }
             },
             error: (e) => {
