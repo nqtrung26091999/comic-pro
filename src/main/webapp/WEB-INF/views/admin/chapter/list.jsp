@@ -2,11 +2,11 @@
 <%@include file="/common/taglib.jsp" %>
 <html>
 <head>
-    <title>Category</title>
+    <title>Chapter</title>
 </head>
 <body>
 <div class="pagetitle">
-    <h1>Quản lý thể loại</h1>
+    <h1>Quản lý chapter</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Home</a></li>
@@ -17,10 +17,10 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-            <c:if test="${not empty model.msg && not empty model.alert}">
-                <div class="alert alert-${model.alert} alert-dismissible">
+            <c:if test="${not empty msg}">
+                <div class="alert alert-${msg.alert} alert-dismissible">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        ${model.msg}
+                        ${msg.message}
                 </div>
             </c:if>
             <div class="card">
@@ -143,7 +143,7 @@
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (rs) {
-                window.location.href = "/admin/chapter?page=1&limit=10&msg=delete_success&comicId=" + data["comicId"];
+                window.location.href = "/admin/chapter?page=1&limit=10&comicId=" + ${comicId} + "&msg=delete_success";
                 console.log(rs);
             },
             error: function (err) {

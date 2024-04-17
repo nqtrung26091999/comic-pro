@@ -35,6 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// put thong tin vao security duy tri he thong do khi user login vao he thong
 		MyUser myUser = new MyUser(userEntity.getUserName(), userEntity.getPassword(), true, true, true, true,
 				authorities);
+		myUser.setAvatar(userEntity.getAvatar());
 		myUser.setFullName(userEntity.getFullName());
 		return myUser;
 	}

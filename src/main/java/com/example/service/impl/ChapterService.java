@@ -26,13 +26,14 @@ public class ChapterService implements IChapterService {
     private ChapterConverter chapterConverter;
 
     @Override
-    public int totalChapter(Long comicId) {
-        return 0;
-    }
-
-    @Override
     public int getTotalItem(String search) {
-        return 0;
+        int count = 0;
+        if (search != null) {
+
+        } else {
+            count = (int) chapterRepository.count();
+        }
+        return count;
     }
 
     @Override
@@ -59,8 +60,16 @@ public class ChapterService implements IChapterService {
     @Override
     @Transactional
     public ChapterDTO save(ChapterDTO dto) throws Exception {
-        ComicEntity comicEntity = comicRepository.findOne(dto.getComicId());
-        return null;
+        Long id = dto.getId();
+        if (id == null) {
+            ChapterEntity chapterEntity = chapterRepository.save(chapterConverter.toEntity(dto));
+            ComicEntity comicEntity = comicRepository.findOne(dto.getComicId());
+            chapterEntity.setComic(comicEntity);
+            return chapterConverter.toDTO(chapterEntity);
+        }
+        ChapterEntity oldChapter = chapterRepository.findOne(id);
+        ChapterEntity chapterEntity = chapterConverter.toEntity(oldChapter, dto);
+        return chapterConverter.toDTO(chapterRepository.save(chapterEntity));
     }
 
     @Override

@@ -8,8 +8,6 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 public interface IChapterService {
-    int totalChapter(Long comicId);
-
     int getTotalItem(String search);
 
     List<ChapterDTO> findByComicId(Long id, Pageable pageable);

@@ -7,23 +7,32 @@ import java.util.Collection;
 
 public class MyUser extends User {
 
-	private static final long serialVersionUID = 1L;
-	private String fullName;
+    private static final long serialVersionUID = 1L;
+    private String fullName;
+    private String avatar;
 
-	public MyUser(String username, String password, boolean enabled, boolean accountNonExpired,
-			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-		// TODO Auto-generated constructor stub
-	}
+    public String getAvatar() {
+        return avatar;
+    }
 
-	public String getFullName() {
-		return fullName;
-	}
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-	
-	
+    public MyUser(String username, String password, boolean enabled, boolean accountNonExpired,
+                  boolean credentialsNonExpired, boolean accountNonLocked,
+                  Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        // TODO Auto-generated constructor stub
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+
 }
