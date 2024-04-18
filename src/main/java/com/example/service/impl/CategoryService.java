@@ -21,10 +21,11 @@ public class CategoryService implements ICategoryService {
 
     @Autowired
     private CategoryConverter categoryConverter;
+
     @Override
     public int getTotalItem(String search) {
         int count = 0;
-        if (search != null) {
+        if (search != null && !search.isEmpty()) {
 
         } else {
             count = (int) categoryRepository.count();
@@ -45,6 +46,10 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDTO findOneById(Long id) {
+        CategoryEntity entity = categoryRepository.findOne(id);
+        if (entity != null) {
+            return categoryConverter.toDTO(entity);
+        }
         return null;
     }
 
@@ -70,7 +75,7 @@ public class CategoryService implements ICategoryService {
     public CategoryDTO save(CategoryDTO categoryDTO) {
         CategoryEntity categoryEntity;
         Long id = categoryDTO.getId();
-        if(id != null) {
+        if (id != null) {
             CategoryEntity oldEntity = categoryRepository.findOne(id);
             categoryEntity = categoryConverter.toEntity(oldEntity, categoryDTO);
         } else {

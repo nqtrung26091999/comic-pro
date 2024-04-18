@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ include file="/common/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,79 +13,78 @@
     <div class="row">
         <!-- Blog entries-->
         <div class="col-lg-8">
-            <!-- Featured blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg"
-                                  alt="..."/></a>
-                <div class="card-body">
-                    <div class="small text-muted">January 1, 2023</div>
-                    <h2 class="card-title">Featured Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid
-                        atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero
-                        voluptate voluptatibus possimus, veniam magni quis!</p>
-                    <a class="btn btn-primary" href="#!">Read more →</a>
+            <!-- Nested row for non-featured blog posts-->
+            <h3><strong>Truyện đề cử <i class="fa-solid fa-arrow-down"></i></strong></h3>
+            <div class="col-centered">
+                <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi"
+                     data-interval="2500">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="carousel-col">
+                                <div class="block img-responsive">
+                                    <a href="#!">
+                                        <img class="card-img-top" src="https://picsum.photos/200/250"
+                                             alt="..."/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <c:forEach items="${model}" var="item">
+                            <div class="item">
+                                <div class="carousel-col">
+                                    <div class="block img-responsive">
+                                        <a href="#!">
+                                            <img class="card-img-top" src="${item.cover}"
+                                                 alt="..."/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="left carousel-control">
+                        <a href="#carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </div>
+                    <div class="right carousel-control">
+                        <a href="#carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <!-- Nested row for non-featured blog posts-->
+            <h3><strong>Truyện tổng hợp <i class="fa-solid fa-arrow-down"></i></strong></h3>
+            <hr>
             <div class="row">
-                <div class="col-lg-6">
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg"
-                                          alt="..."/></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                                aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
+                <c:if test="${not empty model}">
+                    <c:forEach var="item" items="${model}">
+                        <div class="col-lg-3">
+                            <!-- Blog post-->
+                            <div class="card mb-4">
+                                <a href="#!">
+                                    <img class="card-img-top" src="${item.cover}" height="200" alt="..."/>
+                                </a>
+                                <div class="card-body">
+                                    <div class="small text-muted">${item.createdDate}</div>
+                                    <h2 class="small card-title h4">${item.name}</h2>
+                                    <a class="btn btn-primary btn-sm" href="#!">Read →</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg"
-                                          alt="..."/></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                                aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg"
-                                          alt="..."/></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                                aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg"
-                                          alt="..."/></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                                aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                </div>
+                    </c:forEach>
+                </c:if>
             </div>
             <!-- Pagination-->
             <nav aria-label="Pagination">
                 <hr class="my-0"/>
                 <ul class="pagination justify-content-center my-4">
-                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"
+                                                      aria-disabled="true">Newer</a>
                     </li>
                     <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
                     <li class="page-item"><a class="page-link" href="#!">2</a></li>
@@ -104,7 +104,9 @@
                     <div class="input-group">
                         <input class="form-control" type="text" placeholder="Enter search term..."
                                aria-label="Enter search term..." aria-describedby="button-search"/>
-                        <button class="btn btn-primary" id="button-search" style="border-radius: 3px; margin-top: 5px;" type="button">Go!</button>
+                        <button class="btn btn-primary" id="button-search" style="border-radius: 3px; margin-top: 5px;"
+                                type="button">Go!
+                        </button>
                     </div>
                 </div>
             </div>
@@ -140,5 +142,23 @@
         </div>
     </div>
 </div>
+<script>
+    $('.carousel[data-type="multi"] .item').each(function () {
+        var next = $(this).next();
+        if (!next.length) {
+            next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i = 0; i < 3; i++) {
+            next = next.next();
+            if (!next.length) {
+                next = $(this).siblings(':first');
+            }
+
+            next.children(':first-child').clone().appendTo($(this));
+        }
+    });
+</script>
 </body>
 </html>

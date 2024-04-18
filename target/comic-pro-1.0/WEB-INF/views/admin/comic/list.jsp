@@ -19,10 +19,10 @@
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
-                <c:if test="${not empty model.msg && not empty model.alert}">
-                    <div class="alert alert-${model.alert} alert-dismissible">
+                <c:if test="${not empty msg}">
+                    <div class="alert alert-${msg.alert} alert-dismissible">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            ${model.msg}
+                            ${msg.message}
                     </div>
                 </c:if>
                 <div class="card">
@@ -39,7 +39,7 @@
                     <div class="card-body">
                         <div class="input-group">
                             <div class="form-outline" data-mdb-input-init>
-                                <input type="search" id="form1" placeholder="Search by name" class="form-control"/>
+                                <input type="search" id="form1" placeholder="Search by name" class="form-control" value=""/>
                             </div>
                             <button type="button" class="btn btn-primary" data-mdb-ripple-init>
                                 <i class="fas fa-search"></i>
@@ -50,7 +50,7 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th><input type="checkbox" value=""></th>
+                                <th><input type="checkbox" id="checkAll" value=""></th>
                                 <th>Tên truyện</th>
                                 <th>Số chapter</th>
                                 <th>Thể loại</th>
@@ -64,7 +64,7 @@
                             <tbody>
                             <c:forEach var="item" items="${model.listResult}">
                                 <tr>
-                                    <td><input type="checkbox" value=""></td>
+                                    <td><input type="checkbox" value="${item.id}"></td>
                                     <td>${item.name}</td>
                                     <td>
                                         <strong>

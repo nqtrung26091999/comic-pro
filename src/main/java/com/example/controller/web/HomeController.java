@@ -1,31 +1,62 @@
 package com.example.controller.web;
 
+import com.example.dto.ComicDTO;
 import com.example.dto.UserDTO;
+import com.example.service.IComicService;
 import com.example.service.IUserService;
+import com.example.util.MessageUtils;
 import com.example.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller("homeWeb")
 public class HomeController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IComicService comicService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView homePage() {
-        return new ModelAndView("web/home");
+    public ModelAndView homePage(@RequestParam(value = "search", required = false) String search,
+                                 @RequestParam(value = "page", required = false) Integer page,
+                                 @RequestParam(value = "limit", required = false) Integer limit) {
+        ModelAndView mav = new ModelAndView("web/home");
+        if (page != null && limit != null) {
+            ComicDTO comicDTO = new ComicDTO();
+            Pageable pageable = new PageRequest(page - 1, limit);
+            comicDTO.setPage(page);
+            comicDTO.setLimit(limit);
+            comicDTO.setTotalItem(comicService.getTotalItem(search));
+            comicDTO.setTotalPage((int) Math.ceil((double) comicDTO.getTotalItem() / comicDTO.getLimit()));
+            if (search == null || search.isEmpty()) {
+                comicDTO.setListResult(comicService.findAll(pageable));
+                comicDTO.setSearch("");
+            } else {
+                comicDTO.setListResult(comicService.searchComic(search, pageable));
+                comicDTO.setSearch(search);
+            }
+        } else {
+            List<ComicDTO> list = comicService.findAll();
+            mav.addObject("model", list);
+        }
+        return mav;
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -42,7 +73,7 @@ public class HomeController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
         return new ModelAndView("redirect:/home");

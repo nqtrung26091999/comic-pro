@@ -5,6 +5,7 @@ import com.example.dto.CategoryDTO;
 import com.example.dto.RoleDTO;
 import com.example.dto.UserDTO;
 import com.example.service.ICategoryService;
+import com.example.util.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class CategoryController {
         categoryDTO.setLimit(limit);
         categoryDTO.setTotalItem(categoryService.getTotalItem(search));
         categoryDTO.setTotalPage((int) Math.ceil((double) categoryDTO.getTotalItem() / categoryDTO.getLimit()));
-        if (search == null) {
+        if (search == null || search.isEmpty()) {
             categoryDTO.setListResult(categoryService.findAll(pageable));
             categoryDTO.setSearch("");
         } else {
@@ -41,20 +42,7 @@ public class CategoryController {
         }
         ModelAndView mav = new ModelAndView("/admin/category/list");
         if (msg != null) {
-            switch (msg) {
-                case SystemConstant.INSERT_SUCCESS:
-                    categoryDTO.setMsg("Đăng ký thành công !");
-                    categoryDTO.setAlert("success");
-                    break;
-                case SystemConstant.INSERT_FAILED:
-                    categoryDTO.setMsg("Đăng ký thất bại !");
-                    categoryDTO.setAlert("danger");
-                    break;
-                case SystemConstant.DELETE_SUCCESS:
-                    categoryDTO.setMsg("Xóa thể loại thành công !");
-                    categoryDTO.setAlert("success");
-                    break;
-            }
+            mav.addObject("msg", MessageUtils.handleMessage(msg));
         }
         mav.addObject("model", categoryDTO);
         return mav;

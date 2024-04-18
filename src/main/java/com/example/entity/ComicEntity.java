@@ -12,7 +12,7 @@ public class ComicEntity extends BaseEntity {
 
     @Column(name = "code")
     private String code;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "cover")
     private String cover;

@@ -14,7 +14,7 @@
     </c:if>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Trang chủ</a></li>
             <li class="breadcrumb-item"><a href="<c:url value="/admin/user?page=1&limit=10"/>">Danh sách người dùng</a>
             </li>
             <c:if test="${not empty model.id}">

@@ -3,10 +3,7 @@ package com.example.api;
 import com.example.dto.CategoryDTO;
 import com.example.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,11 @@ public class CategoryAPI {
 
     @PostMapping(value = "/api/category")
     public CategoryDTO insertCategory(@RequestBody CategoryDTO categoryDTO) {
+        return categoryService.save(categoryDTO);
+    }
+
+    @PutMapping(value = "/api/category")
+    public CategoryDTO updateCategory(@RequestBody CategoryDTO categoryDTO) {
         return categoryService.save(categoryDTO);
     }
 

@@ -9,7 +9,9 @@
     <h1>Quản lý chapter</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/> ">Home</a></li>
+            <li class="breadcrumb-item">Quản lý truyện tranh</li>
+            <li class="breadcrumb-item"><a href="<c:url value="/admin/comic?page=1&limit=10"/>">Danh sách truyện tranh</a></li>
             <li class="breadcrumb-item active">Danh sách chapter</li>
         </ol>
     </nav>

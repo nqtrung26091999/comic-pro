@@ -1,19 +1,24 @@
 package com.example.service.impl;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.example.constant.AWSConstant;
+import com.example.constant.SystemConstant;
 import com.example.converter.CategoryConverter;
 import com.example.converter.ComicConverter;
 import com.example.dto.CategoryDTO;
 import com.example.dto.ComicDTO;
 import com.example.entity.CategoryEntity;
 import com.example.entity.ComicEntity;
+import com.example.entity.ContentEntity;
 import com.example.repository.CategoryRepository;
 import com.example.repository.ChapterRepository;
 import com.example.repository.ComicRepository;
 import com.example.service.IComicService;
 import com.example.service.awss3.AWSClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -71,10 +76,10 @@ public class ComicService implements IComicService {
     @Override
     public int getTotalItem(String search) {
         int count = 0;
-        if (search != null) {
+        if (search != null && !search.isEmpty()) {
 
         } else {
-            count = (int) categoryRepository.count();
+            count = (int) comicRepository.count();
         }
         return count;
     }
@@ -91,6 +96,17 @@ public class ComicService implements IComicService {
         for (ComicEntity entity : entityList) {
             ComicDTO dto = comicConverter.toDTO(entity);
             dto.setTotalChapters(chapterRepository.countByComicId(entity.getId()));
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ComicDTO> findAll() {
+        List<ComicEntity> entityList = comicRepository.findAll();
+        List<ComicDTO> result = new ArrayList<>();
+        for (ComicEntity entity : entityList) {
+            ComicDTO dto = comicConverter.toDTO(entity);
             result.add(dto);
         }
         return result;
@@ -131,5 +147,22 @@ public class ComicService implements IComicService {
         comicEntity = comicConverter.toEntity(comicOld, comicDTO);
         comicEntity.setCategories(categories);
         return comicConverter.toDTO(comicRepository.save(comicEntity));
+    }
+
+    @Override
+    public void deleteComic(ComicDTO comicDTO) {
+        long[] ids = comicDTO.getIds();
+        if (ids != null) {
+            for (long id : ids) {
+                ComicEntity entity = comicRepository.findOne(id);
+                String name = entity.getCover();
+                String path = name.substring(name.lastIndexOf(SystemConstant.DIR_PROJECT_NAME_S3));
+                S3Object object = awsClient.getObjectFromS3(AWSConstant.BUCKET_NAME, path);
+                if (object != null) {
+                    awsClient.deleteFileFromS3(AWSConstant.BUCKET_NAME, path);
+                }
+                comicRepository.delete(id);
+            }
+        }
     }
 }

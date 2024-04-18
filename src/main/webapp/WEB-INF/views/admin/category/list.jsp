@@ -9,7 +9,7 @@
     <h1>Quản lý thể loại</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<c:url value="/admin/home"/>">Trang chủ</a></li>
             <li class="breadcrumb-item active">Danh sách thể loại</li>
         </ol>
     </nav>
@@ -17,16 +17,17 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-            <c:if test="${not empty model.msg && not empty model.alert}">
-                <div class="alert alert-${model.alert} alert-dismissible">
+            <c:if test="${not empty msg}">
+                <div class="alert alert-${msg.alert} alert-dismissible">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        ${model.msg}
+                        ${msg.message}
                 </div>
             </c:if>
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Danh sách thể loại</h5>
-                    <a href="<c:url value="/admin/category/edit" />" title="Add new category" style="margin-right: 10px;">
+                    <a href="<c:url value="/admin/category/edit" />" title="Add new category"
+                       style="margin-right: 10px;">
                         <i class="fa-solid fa-square-plus fa-xl"></i>
                     </a>
                     <a href="#" title="delete category" id="btnDelete" style="margin-right: 10px;">
@@ -84,15 +85,18 @@
 <script type="text/javascript">
     var totalPages = ${model.totalPage};
     var currentPage = ${model.page};
+    var search = $('#search').val();
     $("#search").on("keypress", (e) => {
         e.preventDefault();
     })
     $("#btnSearch").on("click", (e) => {
         e.preventDefault();
-        $('#search').val();
-        $('#limit').val(10);
-        $('#page').val(1);
-        $('#formSubmit').submit();
+        if (search !== "") {
+            $('#search').val();
+            $('#limit').val(10);
+            $('#page').val(1);
+            $('#formSubmit').submit();
+        }
     });
     $(function () {
         window.pagObj = $('#pagination').twbsPagination({
@@ -102,7 +106,6 @@
             onPageClick: function (event, page) {
                 event.preventDefault();
                 if (currentPage != page) {
-                    $('#search').val();
                     $('#limit').val(10);
                     $('#page').val(page);
                     $('#formSubmit').submit();

@@ -15,8 +15,9 @@ public interface IComicService {
     int getTotalItem(String search);
     String getNameComicById(Long id);
     List<ComicDTO> findAll(Pageable pageable);
+    List<ComicDTO> findAll();
     List<ComicDTO> searchComic(String search, Pageable pageable);
     ComicDTO findOne(Long id) throws GeneralSecurityException, IOException;
-
     ComicDTO update(ComicDTO comicDTO);
+    void deleteComic(ComicDTO comicDTO);
 }

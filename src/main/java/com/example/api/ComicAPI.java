@@ -4,10 +4,7 @@ import com.example.dto.ComicDTO;
 import com.example.service.IComicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -31,5 +28,10 @@ public class ComicAPI {
     @PutMapping(value = "/api/comic")
     public ComicDTO updateComic(@RequestBody ComicDTO comicDTO) {
         return service.update(comicDTO);
+    }
+
+    @DeleteMapping(value = "/api/comic")
+    public void deleteComic(@RequestBody ComicDTO comicDTO) {
+        service.deleteComic(comicDTO);
     }
 }

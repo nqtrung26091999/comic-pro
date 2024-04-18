@@ -49,8 +49,7 @@
                             <div class="row mb-3">
                                 <label for="description" class="col-sm-2 col-form-label">Mô tả</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" name="description" id="description"
-                                              value="${model.description}" required></textarea>
+                                    <textarea class="form-control" name="description" id="description" required>${model.description}</textarea>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -58,7 +57,7 @@
                                     <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
                                 </div>
                             </div>
-                            <input type="hidden" name="id" value="${model.id}">
+                            <input type="hidden" name="id" id="id" value="${model.id}">
                         </form>
                         <!-- End General Form Elements -->
                     </div>
@@ -85,7 +84,7 @@
             data["name"] = name;
             data["description"] = description;
             data["code"] = codex;
-            if (data["id"] === undefined) {
+            if (data["id"] == null) {
                 addNewCategory(data);
             } else {
                 updateCategory(data);
@@ -93,7 +92,20 @@
         });
 
         function updateCategory(data) {
-
+            $.ajax({
+                url: "/api/category",
+                type: "put",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "JSON",
+                success: (rs) => {
+                    window.location.href = "/admin/category?page=1&limit=10&msg=update_success";
+                },
+                error: (e) => {
+                    window.location.href = "/admin/category?page=1&limit=10&msg=update_failed"
+                    console.log(e)
+                }
+            });
         }
 
         function addNewCategory(data) {

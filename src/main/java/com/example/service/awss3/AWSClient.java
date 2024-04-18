@@ -79,6 +79,16 @@ public class AWSClient {
         s3Client.deleteObject(request);
     }
 
+    public S3Object getObjectFromS3(String bucketName, String path) {
+        try {
+            return s3Client.getObject(bucketName, path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public List<String> listObjects(String bucketName) {
         ObjectListing objectListing = s3Client.listObjects(bucketName);
         return objectListing.getObjectSummaries()

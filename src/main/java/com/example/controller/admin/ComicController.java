@@ -5,6 +5,7 @@ import com.example.dto.CategoryDTO;
 import com.example.dto.ComicDTO;
 import com.example.service.IChapterService;
 import com.example.service.IComicService;
+import com.example.util.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class ComicController {
         comicDTO.setLimit(limit);
         comicDTO.setTotalItem(comicService.getTotalItem(search));
         comicDTO.setTotalPage((int) Math.ceil((double) comicDTO.getTotalItem() / comicDTO.getLimit()));
-        if (search == null) {
+        if (search == null || search.isEmpty()) {
             comicDTO.setListResult(comicService.findAll(pageable));
             comicDTO.setSearch("");
         } else {
@@ -42,24 +43,7 @@ public class ComicController {
         }
         ModelAndView mav = new ModelAndView("/admin/comic/list");
         if (msg != null) {
-            switch (msg) {
-                case SystemConstant.INSERT_SUCCESS:
-                    comicDTO.setMsg("Đăng ký thành công !");
-                    comicDTO.setAlert("success");
-                    break;
-                case SystemConstant.INSERT_FAILED:
-                    comicDTO.setMsg("Đăng ký thất bại !");
-                    comicDTO.setAlert("danger");
-                    break;
-                case SystemConstant.DELETE_SUCCESS:
-                    comicDTO.setMsg("Xóa thể loại thành công !");
-                    comicDTO.setAlert("success");
-                    break;
-                case SystemConstant.UPDATE_SUCCESS:
-                    comicDTO.setMsg("Cập nhật thành công !");
-                    comicDTO.setAlert("success");
-                    break;
-            }
+            mav.addObject("msg", MessageUtils.handleMessage(msg));
         }
         mav.addObject("model", comicDTO);
         return mav;
