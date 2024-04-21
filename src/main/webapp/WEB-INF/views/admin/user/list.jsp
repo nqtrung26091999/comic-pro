@@ -109,9 +109,12 @@
 <script type="text/javascript">
     var totalPages = ${model.totalPage};
     var currentPage = ${model.page};
-    $("#search").on("keypress", (e) => {
-        e.preventDefault();
-    })
+    // $("#search").on("keypress", (e) => {
+    //     e.preventDefault();
+    // });
+    $("#search").on("change", e => {
+        console.log(e.target.value);
+    });
     $("#btnSearch").on("click", (e) => {
         e.preventDefault();
         $('#search').val();

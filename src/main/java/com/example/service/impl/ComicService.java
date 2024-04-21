@@ -150,6 +150,12 @@ public class ComicService implements IComicService {
     }
 
     @Override
+    public ComicDTO findOneNewest() {
+        ComicEntity entity = comicRepository.findComicEntityByMaxCreatedDate();
+        return comicConverter.toDTO(entity);
+    }
+
+    @Override
     public void deleteComic(ComicDTO comicDTO) {
         long[] ids = comicDTO.getIds();
         if (ids != null) {

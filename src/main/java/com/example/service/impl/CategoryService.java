@@ -45,6 +45,17 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public List<CategoryDTO> findAll() {
+        List<CategoryDTO> result = new ArrayList<>();
+        List<CategoryEntity> entityList = categoryRepository.findAll();
+        for (CategoryEntity entity : entityList) {
+            CategoryDTO dto = categoryConverter.toDTO(entity);
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
     public CategoryDTO findOneById(Long id) {
         CategoryEntity entity = categoryRepository.findOne(id);
         if (entity != null) {

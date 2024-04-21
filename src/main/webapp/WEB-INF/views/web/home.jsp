@@ -15,69 +15,57 @@
         <div class="col-lg-8">
             <!-- Nested row for non-featured blog posts-->
             <h3><strong>Truyện đề cử <i class="fa-solid fa-arrow-down"></i></strong></h3>
-            <div class="col-centered">
-                <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi"
-                     data-interval="2500">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <div class="carousel-col">
-                                <div class="block img-responsive">
-                                    <a href="#!">
-                                        <img class="card-img-top" src="https://picsum.photos/200/250"
-                                             alt="..."/>
+            <hr>
+            <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <div class="col-md-3">
+                            <div class="card-img">
+                                <a href="#">
+                                    <img src="${comicNewest.cover}" height="200" width="200" alt="" title="${comicNewest.name}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <c:forEach items="${model}" var="item">
+                        <div class="carousel-item">
+                            <div class="col-md-3">
+                                <div class="card-img">
+                                    <a href="">
+                                        <img src="${item.cover}" class="" alt="" height="200" width="200" title="${item.name}">
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        <c:forEach items="${model}" var="item">
-                            <div class="item">
-                                <div class="carousel-col">
-                                    <div class="block img-responsive">
-                                        <a href="#!">
-                                            <img class="card-img-top" src="${item.cover}"
-                                                 alt="..."/>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-
-                    <!-- Controls -->
-                    <div class="left carousel-control">
-                        <a href="#carousel" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </div>
-                    <div class="right carousel-control">
-                        <a href="#carousel" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    </c:forEach>
                 </div>
+                <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
+                   data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </a>
+                <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
+                   data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </a>
             </div>
-            <h3><strong>Truyện tổng hợp <i class="fa-solid fa-arrow-down"></i></strong></h3>
             <hr>
+            <h3><strong>Truyện tổng hợp <i class="fa-solid fa-arrow-down"></i></strong></h3>
             <div class="row">
-                <c:if test="${not empty model}">
-                    <c:forEach var="item" items="${model}">
-                        <div class="col-lg-3">
-                            <!-- Blog post-->
-                            <div class="card mb-4">
-                                <a href="#!">
-                                    <img class="card-img-top" src="${item.cover}" height="200" alt="..."/>
-                                </a>
-                                <div class="card-body">
-                                    <div class="small text-muted">${item.createdDate}</div>
-                                    <h2 class="small card-title h4">${item.name}</h2>
-                                    <a class="btn btn-primary btn-sm" href="#!">Read →</a>
-                                </div>
+                <c:forEach var="item" items="${modelAll}">
+                    <div class="col-lg-3">
+                        <!-- Blog post-->
+                        <div class="card mb-4">
+                            <a href="#!">
+                                <img class="card-img-top" src="${item.cover}" height="220" alt="..."/>
+                            </a>
+                            <div class="card-body">
+                                <div class="small text-muted">${item.createdDate}</div>
+                                <h2 class="small card-title h4">${item.name}</h2>
+                                <a class="btn btn-primary btn-sm" href="#!">Read →</a>
                             </div>
                         </div>
-                    </c:forEach>
-                </c:if>
+                    </div>
+                </c:forEach>
             </div>
             <!-- Pagination-->
             <nav aria-label="Pagination">
@@ -115,20 +103,13 @@
                 <div class="card-header">Categories</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#!">Web Design</a></li>
-                                <li><a href="#!">HTML</a></li>
-                                <li><a href="#!">Freebies</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#!">JavaScript</a></li>
-                                <li><a href="#!">CSS</a></li>
-                                <li><a href="#!">Tutorials</a></li>
-                            </ul>
-                        </div>
+                        <c:forEach items="${categories}" var="item">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="#!">${item.name}</a></li>
+                                </ul>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -143,22 +124,21 @@
     </div>
 </div>
 <script>
-    $('.carousel[data-type="multi"] .item').each(function () {
-        var next = $(this).next();
-        if (!next.length) {
-            next = $(this).siblings(':first');
-        }
-        next.children(':first-child').clone().appendTo($(this));
+    let items = document.querySelectorAll('.carousel .carousel-item')
 
-        for (var i = 0; i < 3; i++) {
-            next = next.next();
-            if (!next.length) {
-                next = $(this).siblings(':first');
+    items.forEach((el) => {
+        const minPerSlide = 4
+        let next = el.nextElementSibling
+        for (var i = 1; i < minPerSlide; i++) {
+            if (!next) {
+                // wrap carousel by using first child
+                next = items[0]
             }
-
-            next.children(':first-child').clone().appendTo($(this));
+            let cloneChild = next.cloneNode(true)
+            el.appendChild(cloneChild.children[0])
+            next = next.nextElementSibling
         }
-    });
+    })
 </script>
 </body>
 </html>

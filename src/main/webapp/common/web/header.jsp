@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <img
                              class="img-account-profile rounded-circle"
-                             src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                             src="<%=SecurityUtils.getPrincipal().getAvatar()%>"
                              height="45"
                              width="45" alt="">
                     </li>

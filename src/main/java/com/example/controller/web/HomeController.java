@@ -1,7 +1,9 @@
 package com.example.controller.web;
 
+import com.example.dto.CategoryDTO;
 import com.example.dto.ComicDTO;
 import com.example.dto.UserDTO;
+import com.example.service.ICategoryService;
 import com.example.service.IComicService;
 import com.example.service.IUserService;
 import com.example.util.MessageUtils;
@@ -22,8 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller("homeWeb")
 public class HomeController {
@@ -32,14 +33,18 @@ public class HomeController {
     private IUserService userService;
     @Autowired
     private IComicService comicService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView homePage(@RequestParam(value = "search", required = false) String search,
                                  @RequestParam(value = "page", required = false) Integer page,
                                  @RequestParam(value = "limit", required = false) Integer limit) {
         ModelAndView mav = new ModelAndView("web/home");
+        ComicDTO comicDTO = new ComicDTO();
+        List<CategoryDTO> categoryDTOList = categoryService.findAll();
         if (page != null && limit != null) {
-            ComicDTO comicDTO = new ComicDTO();
+            comicDTO = comicService.findOneNewest();
             Pageable pageable = new PageRequest(page - 1, limit);
             comicDTO.setPage(page);
             comicDTO.setLimit(limit);
@@ -54,8 +59,20 @@ public class HomeController {
             }
         } else {
             List<ComicDTO> list = comicService.findAll();
+            List<ComicDTO> listAll = comicService.findAll();
+            comicDTO = comicService.findOneNewest();
+            ListIterator<ComicDTO> listIterator = list.listIterator();
+            while (listIterator.hasNext()) {
+                ComicDTO dto = listIterator.next();
+                if (Objects.equals(comicDTO.getId(), dto.getId())) {
+                    listIterator.remove();
+                }
+            }
+            mav.addObject("comicNewest", comicDTO);
+            mav.addObject("modelAll", listAll);
             mav.addObject("model", list);
         }
+        mav.addObject("categories", categoryDTOList);
         return mav;
     }
 
