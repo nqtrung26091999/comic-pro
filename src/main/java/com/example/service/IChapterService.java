@@ -12,6 +12,8 @@ public interface IChapterService {
 
     List<ChapterDTO> findByComicId(Long id, Pageable pageable);
 
+    List<ChapterDTO> findByComicId(Long id);
+
     List<ChapterDTO> searchComic(String search, Pageable pageable);
 
     ChapterDTO findOne(Long id);

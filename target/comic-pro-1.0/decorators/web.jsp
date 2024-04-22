@@ -83,7 +83,12 @@
 <%--header--%>
 <%@include file="/common/web/header.jsp" %>
 <%--body--%>
-<dec:body/>
+<div class="container">
+    <div class="row">
+        <dec:body/>
+        <%@include file="/common/web/menu.jsp" %>
+    </div>
+</div>
 <%-- Footer --%>
 <div class="footer">
     <%@include file="/common/web/footer.jsp" %>

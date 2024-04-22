@@ -48,6 +48,17 @@ public class ChapterService implements IChapterService {
     }
 
     @Override
+    public List<ChapterDTO> findByComicId(Long id) {
+        List<ChapterDTO> result = new ArrayList<>();
+        List<ChapterEntity> chapterEntityList = chapterRepository.findByComicId(id);
+        for (ChapterEntity entity : chapterEntityList) {
+            ChapterDTO dto = chapterConverter.toDTO(entity);
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
     public List<ChapterDTO> searchComic(String search, Pageable pageable) {
         return null;
     }

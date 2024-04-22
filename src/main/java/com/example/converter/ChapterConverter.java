@@ -9,6 +9,8 @@ public class ChapterConverter {
     public ChapterDTO toDTO(ChapterEntity entity) {
         ChapterDTO dto = new ChapterDTO();
         dto.setName(entity.getName());
+        dto.setModifiedDate(entity.getModifiedDate());
+        dto.setCreatedDate(entity.getCreatedDate());
         dto.setComicId(entity.getComic().getId());
         dto.setId(entity.getId());
         return dto;
