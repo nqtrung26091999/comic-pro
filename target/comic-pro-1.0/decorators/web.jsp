@@ -86,7 +86,9 @@
 <div class="container">
     <div class="row">
         <dec:body/>
-        <%@include file="/common/web/menu.jsp" %>
+        <c:if test="${not empty categories}">
+            <%@include file="/common/web/menu.jsp" %>
+        </c:if>
     </div>
 </div>
 <%-- Footer --%>

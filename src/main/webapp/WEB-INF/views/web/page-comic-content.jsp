@@ -1,76 +1,31 @@
-<%@ include file="/common/taglib.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="/common/taglib.jsp" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<div class="col-lg-8">
+<div class="col-lg-12">
     <!-- Post content-->
-    <article>
+    <article class="d-flex flex-column align-items-center">
         <!-- Post header-->
         <header class="mb-4">
             <!-- Post title-->
-            <h1 class="fw-bolder mb-1">${model.name}</h1>
+            <h1 class="fw-bolder mb-1">${comic.name}</h1>
             <!-- Post meta content-->
-            <div class="text-muted fst-italic mb-2">${model.createdDate}</div>
+            <div class="text-muted fst-italic mb-2">${comic.createdDate}</div>
             <!-- Post categories-->
-            <c:forEach items="${model.listCategory}" var="category">
+            <c:forEach items="${comic.listCategory}" var="category">
                 <a class="badge bg-secondary text-decoration-none link-light" href="#!">${category.name}</a>
             </c:forEach>
         </header>
         <!-- Preview image figure-->
-        <div class="row">
-            <div class="col-4">
-                <figure class="mb-4"><img class="img-fluid rounded" src="${model.cover}" alt="..."/></figure>
-            </div>
-            <div class="col-8 mb-4">
-                <div class="row">
-                    <p><strong><i class="fa-solid fa-user-pen mb-3"></i> Tác giả: </strong><a href="#"
-                                                                                              style="text-decoration: none;">${model.author}</a>
-                    </p>
-                    <p><strong><i class="fa-solid fa-rss mb-3"></i> Tình trạng: </strong>Đang tiến hành</p>
-                    <p><strong><i class="fa-solid fa-eye mb-3"></i> Lượt xem: </strong>194.278</p>
-                    <p><strong><i class="fa-solid fa-heart mb-3"></i> Lượt theo dõi: 2.456</strong> Lươt theo dõi</p>
-                    <div class="col mb-3">
-                        <button class="btn btn-success"><i class="fa-solid fa-heart"></i> Theo dõi</button>
-                        <a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">
-                            <button class="btn btn-danger">Đọc từ đầu</button>
-                        </a>
-                        <button class="btn btn-danger">Đọc mới nhất</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Post content-->
-        <section class="mb-5">
-            <h3 class="mb-4 mt-5"><i class="fa-regular fa-file-lines"></i> Nội dung</h3>
-            <hr>
-            <p class="fs-5 mb-4">${model.description}</p>
-            <h3 class="mb-4 mt-5"><i class="fa-solid fa-list"></i> Danh sách chapter</h3>
-            <hr>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>Chapter</th>
-                    <th>Cập nhật</th>
-                    <th>Lượt xem</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="item" items="${chapters}">
-                    <tr>
-                        <td><a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">${item.name}</a></td>
-                        <td>${item.modifiedDate}</td>
-                        <td>456</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </section>
+        <c:forEach items="${contents}" var="item">
+            <img class="img-fluid" src="${item.name}" alt="..."/>
+        </c:forEach>
     </article>
     <!-- Comments section-->
-    <section class="mb-5">
+    <section class="mb-5 mt-4">
         <div class="card bg-light">
             <div class="card-body">
                 <!-- Comment form-->

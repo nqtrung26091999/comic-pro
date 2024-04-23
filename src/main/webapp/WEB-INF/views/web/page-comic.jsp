@@ -34,7 +34,9 @@
                     <p><strong><i class="fa-solid fa-heart mb-3"></i> Lượt theo dõi: 2.456</strong> Lươt theo dõi</p>
                     <div class="col mb-3">
                         <button class="btn btn-success"><i class="fa-solid fa-heart"></i> Theo dõi</button>
-                        <button class="btn btn-danger">Đọc từ đầu</button>
+                        <a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">
+                            <button class="btn btn-danger">Đọc từ đầu</button>
+                        </a>
                         <button class="btn btn-danger">Đọc mới nhất</button>
                     </div>
                 </div>
@@ -58,7 +60,7 @@
                 <tbody>
                 <c:forEach var="item" items="${chapters}">
                     <tr>
-                        <td><a href="#">${item.name}</a></td>
+                        <td><a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">${item.name}</a></td>
                         <td>${item.modifiedDate}</td>
                         <td>456</td>
                     </tr>
