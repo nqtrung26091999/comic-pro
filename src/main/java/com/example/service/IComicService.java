@@ -22,4 +22,5 @@ public interface IComicService {
     ComicDTO findOneNewest();
     void deleteComic(ComicDTO comicDTO);
 
+    List<ComicDTO> findByCategoryId(Long categoryId);
 }

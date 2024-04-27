@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ComicService implements IComicService {
@@ -170,5 +171,20 @@ public class ComicService implements IComicService {
                 comicRepository.delete(id);
             }
         }
+    }
+
+    @Override
+    public List<ComicDTO> findByCategoryId(Long categoryId) {
+        List<ComicEntity> entityList = comicRepository.findAll();
+        List<ComicDTO> dtoList = new ArrayList<>();
+        for (ComicEntity entity : entityList) {
+            for (int i = 0; i < entity.getCategories().size(); i++) {
+                if (Objects.equals(entity.getCategories().get(i).getId(), categoryId)) {
+                    ComicDTO dto = comicConverter.toDTO(entity);
+                    dtoList.add(dto);
+                }
+            }
+        }
+        return dtoList;
     }
 }

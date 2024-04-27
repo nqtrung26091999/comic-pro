@@ -95,7 +95,7 @@
 <div class="footer">
     <%@include file="/common/web/footer.jsp" %>
 </div>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $("#myBtnLogin").click(function () {
             $("#myModalLogin").modal('toggle');
@@ -103,7 +103,30 @@
         $("#myBtnSignUp").click(function () {
             $("#myModalSignUp").modal('toggle');
         });
+        const items = {...localStorage};
+        // $.each(items, function(index, value) {
+        //     console.log(value);
+        // });
+        for (const [key, value] of Object.entries(items)) {
+            const parseValue = JSON.parse(value);
+            $("#items-history").append(
+                "<div class='row mb-2 p-2' style='background-color: #f3f3f3'>" +
+                "<img alt='' src='" + parseValue.cover + "' class='col-sm-4 border' height='120' width='100'>" +
+                "<div class='col-sm-7'>" +
+                "<p><a href='#' style='text-decoration: none;'>" + parseValue.name + " - <i>Đọc tới " + parseValue.chapter + "</i></a></p>" +
+                "</div>" +
+                "<div class='col-sm-1'>" +
+                "<a onclick=\"(removeFromLocalStorage('" + key + "'))\" href='#'><i class='fa-solid fa-circle-xmark' style='color: #e40c37;'></i></a>" +
+                "</div>" +
+                "</div>"
+            );
+        }
     });
+
+    function removeFromLocalStorage(key) {
+        localStorage.removeItem(key);
+        location.reload();
+    }
 </script>
 </body>
 </html>

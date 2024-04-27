@@ -33,11 +33,16 @@
                     <p><strong><i class="fa-solid fa-eye mb-3"></i> Lượt xem: </strong>194.278</p>
                     <p><strong><i class="fa-solid fa-heart mb-3"></i> Lượt theo dõi: 2.456</strong> Lươt theo dõi</p>
                     <div class="col mb-3">
+                        <c:set var="disabled" scope="session" value=""/>
+                        <c:if test="${empty chapters}">
+                            <c:set var="disabled" scope="session" value="disabled"/>
+                        </c:if>
                         <button class="btn btn-success"><i class="fa-solid fa-heart"></i> Theo dõi</button>
-                        <a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">
-                            <button class="btn btn-danger">Đọc từ đầu</button>
-                        </a>
-                        <button class="btn btn-danger">Đọc mới nhất</button>
+                        <button class="btn btn-danger"
+                                onclick="location.href='/content?comic=${model.id}&chapter=${chapters[0].id}'" <c:out
+                                value="${disabled}"/>>Đọc từ đầu
+                        </button>
+                        <button class="btn btn-danger" <c:out value="${disabled}"/>>Đọc mới nhất</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +65,10 @@
                 <tbody>
                 <c:forEach var="item" items="${chapters}">
                     <tr>
-                        <td><a href="<c:url value="/content?comic=${model.id}&chapter=${item.id}"/>">${item.name}</a></td>
+                        <td>
+                            <button class="btn btn-link"
+                                    onclick="handleStorage('${item.name}', '${item.id}')">${item.name}</button>
+                        </td>
                         <td>${item.modifiedDate}</td>
                         <td>456</td>
                     </tr>
@@ -126,5 +134,22 @@
         </div>
     </section>
 </div>
+<script>
+    const cover = "${model.cover}";
+    const name = "${model.name}";
+    const comicId = "${model.id}";
+
+    function handleStorage(chapter, chapterId) {
+        var obj = {};
+        var key = name + "_" + chapter;
+        obj = {
+            cover,
+            name,
+            chapter,
+        }
+        localStorage.setItem(key, JSON.stringify(obj));
+        location.href = "/content?comic=" + comicId + "&chapter=" + chapterId;
+    }
+</script>
 </body>
 </html>

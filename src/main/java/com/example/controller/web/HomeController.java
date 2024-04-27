@@ -39,7 +39,8 @@ public class HomeController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView homePage(@RequestParam(value = "search", required = false) String search,
                                  @RequestParam(value = "page", required = false) Integer page,
-                                 @RequestParam(value = "limit", required = false) Integer limit) {
+                                 @RequestParam(value = "limit", required = false) Integer limit,
+                                 @RequestParam(value = "category", required = false) Long categoryId) {
         ModelAndView mav = new ModelAndView("web/home");
         ComicDTO comicDTO = new ComicDTO();
         List<CategoryDTO> categoryDTOList = categoryService.findAll();
@@ -58,8 +59,13 @@ public class HomeController {
                 comicDTO.setSearch(search);
             }
         } else {
+            List<ComicDTO> listAll = new ArrayList<>();
+            if (categoryId !=  null) {
+                listAll = comicService.findByCategoryId(categoryId);
+            } else {
+                listAll = comicService.findAll();
+            }
             List<ComicDTO> list = comicService.findAll();
-            List<ComicDTO> listAll = comicService.findAll();
             comicDTO = comicService.findOneNewest();
             ListIterator<ComicDTO> listIterator = list.listIterator();
             while (listIterator.hasNext()) {

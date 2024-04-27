@@ -19,7 +19,7 @@
                 <div class="col-md-3">
                     <div class="card-img">
                         <a href="<c:url value="/comic?id=${comicNewest.id}"/>">
-                            <img src="${comicNewest.cover}" height="200" width="200" alt="" title="${comicNewest.name}">
+                            <img src="${comicNewest.cover}" class="border rounded" height="200" width="200" alt="" title="${comicNewest.name}">
                         </a>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="col-md-3">
                         <div class="card-img">
                             <a href="<c:url value="/comic?id=${item.id}"/>">
-                                <img src="${item.cover}" class="" alt="" height="200" width="200" title="${item.name}">
+                                <img src="${item.cover}" class="border rounded" alt="" height="200" width="200" title="${item.name}">
                             </a>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                 <!-- Blog post-->
                 <div class="card mb-4">
                     <a href="#!">
-                        <img class="card-img-top" src="${item.cover}" height="220" alt="..."/>
+                        <img class="card-img-top" src="${item.cover}" height="200" alt="..."/>
                     </a>
                     <div class="card-body">
                         <div class="small text-muted">${item.createdDate}</div>
