@@ -6,8 +6,13 @@
         <div class="card-header">Tìm kiếm</div>
         <div class="card-body">
             <div class="input-group">
-                <input class="form-control" type="text" placeholder="Enter search term..."
-                       aria-label="Enter search term..." aria-describedby="button-search"/>
+                <input id="inputSearch" class="form-control" type="text" placeholder="Enter search term..."
+                       aria-label="Enter search term..." aria-describedby="button-search" list="listSearch"/>
+                <datalist id="listSearch">
+                    <c:forEach var="item" items="${modelAll}">
+                        <option value="${item.name}"></option>
+                    </c:forEach>
+                </datalist>
             </div>
         </div>
     </div>
@@ -33,3 +38,5 @@
         </div>
     </div>
 </div>
+<script>
+</script>
