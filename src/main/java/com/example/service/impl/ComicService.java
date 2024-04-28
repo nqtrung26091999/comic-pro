@@ -118,18 +118,18 @@ public class ComicService implements IComicService {
         return null;
     }
 
-    @Override
-    public ComicDTO searchComic(String search) {
-        List<ComicEntity> entityList = comicRepository.findByNameStartingWith(search);
-        List<ComicDTO> dtoList = new ArrayList<>();
-        for (ComicEntity entity : entityList) {
-            ComicDTO dto = comicConverter.toDTO(entity);
-            dtoList.add(dto);
-        }
-        ComicDTO result = new ComicDTO();
-        result.setListResult(dtoList);
-        return result;
-    }
+//    @Override
+//    public ComicDTO searchComic(String search) {
+//        List<ComicEntity> entityList = comicRepository.findByNameStartingWith(search);
+//        List<ComicDTO> dtoList = new ArrayList<>();
+//        for (ComicEntity entity : entityList) {
+//            ComicDTO dto = comicConverter.toDTO(entity);
+//            dtoList.add(dto);
+//        }
+//        ComicDTO result = new ComicDTO();
+//        result.setListResult(dtoList);
+//        return result;
+//    }
 
     @Override
     public ComicDTO findOne(Long id) {

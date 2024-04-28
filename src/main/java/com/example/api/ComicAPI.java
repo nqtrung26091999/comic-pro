@@ -35,10 +35,10 @@ public class ComicAPI {
         service.deleteComic(comicDTO);
     }
 
-    @PostMapping(value = "/api/comic-search")
-    public ComicDTO searchComic(@RequestBody ComicDTO comicDTO) {
-        ComicDTO dto = new ComicDTO();
-        String text = comicDTO.getSearch();
-        return service.searchComic(text);
-    }
+//    @PostMapping(value = "/api/comic-search")
+//    public ComicDTO searchComic(@RequestBody ComicDTO comicDTO) {
+//        ComicDTO dto = new ComicDTO();
+//        String text = comicDTO.getSearch();
+//        return service.searchComic(text);
+//    }
 }

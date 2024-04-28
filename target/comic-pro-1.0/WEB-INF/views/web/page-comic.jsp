@@ -16,7 +16,7 @@
             <div class="text-muted fst-italic mb-2">${model.createdDate}</div>
             <!-- Post categories-->
             <c:forEach items="${model.listCategory}" var="category">
-                <a class="badge bg-secondary text-decoration-none link-light" href="#!">${category.name}</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="<c:url value="/home?category=${category.id}"/>">${category.name}</a>
             </c:forEach>
         </header>
         <!-- Preview image figure-->
@@ -38,7 +38,7 @@
                             <c:set var="disabled" scope="session" value="disabled"/>
                         </c:if>
                         <button class="btn btn-success"><i class="fa-solid fa-heart"></i> Theo dõi</button>
-                        <button class="btn btn-danger"
+                        <button class="btn btn-danger" id="btnReadFirst"
                                 onclick="location.href='/content?comic=${model.id}&chapter=${chapters[0].id}'" <c:out
                                 value="${disabled}"/>>Đọc từ đầu
                         </button>
@@ -138,6 +138,12 @@
     const cover = "${model.cover}";
     const name = "${model.name}";
     const comicId = "${model.id}";
+    const chapterIdFirst = "${chapters[0].id}"
+    const chapterNameFirst = "${chapters[0].name}"
+
+    $("#btnReadFirst").bind("click", function (e) {
+        handleStorage(chapterNameFirst, chapterIdFirst);
+    })
 
     function handleStorage(chapter, chapterId) {
         var obj = {};
