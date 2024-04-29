@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>${model.name}</title>
 </head>
 <body>
 <div class="col-lg-8">

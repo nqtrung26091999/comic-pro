@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home page</title>
+    <title>Trang chủ</title>
 </head>
 <body>
 <!-- Blog entries-->

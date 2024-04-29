@@ -2,7 +2,7 @@
 <%@include file="/common/taglib.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>${comic.name} - ${chapter.name}</title>
 </head>
 <body>
 <div class="col-lg-12">

@@ -3,6 +3,7 @@ package com.example.controller.web;
 import com.example.dto.ChapterDTO;
 import com.example.dto.ComicDTO;
 import com.example.dto.ContentDTO;
+import com.example.service.IChapterService;
 import com.example.service.IComicService;
 import com.example.service.IContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,17 @@ public class ChapterController {
     private IContentService contentService;
     @Autowired
     private IComicService comicService;
+    @Autowired
+    private IChapterService chapterService;
 
     @RequestMapping(value = "/content")
     public ModelAndView showPage(@RequestParam("chapter") Long chapterId,
                                  @RequestParam("comic") Long comicId) {
         ComicDTO comicDTO = comicService.findOne(comicId);
+        ChapterDTO chapterDTO =chapterService.findOne(chapterId);
         List<ContentDTO> listContent = contentService.findByChapterId(chapterId);
         ModelAndView mav = new ModelAndView("web/page-comic-content");
+        mav.addObject("chapter", chapterDTO);
         mav.addObject("contents", listContent);
         mav.addObject("comic", comicDTO);
         return mav;
