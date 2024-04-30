@@ -3,7 +3,7 @@
 <c:url var="userAPIUrl" value="/api/user"/>
 <html>
 <head>
-    <title>User</title>
+    <title>Danh sách người dùng</title>
 </head>
 <body>
 <div class="pagetitle">

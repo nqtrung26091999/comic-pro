@@ -2,7 +2,7 @@
 <%@include file="/common/taglib.jsp" %>
 <html>
 <head>
-    <title>Tạo tài khoản</title>
+    <title>Chỉnh sửa người dùng</title>
 </head>
 <body>
 <div class="pagetitle">

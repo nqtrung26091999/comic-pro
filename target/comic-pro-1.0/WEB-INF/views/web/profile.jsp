@@ -24,7 +24,7 @@
                 <div class="card-body text-center">
                     <!-- Profile picture image-->
                     <img id="userAvatar" class="img-account-profile rounded-circle mb-2"
-                         src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="" height="200" width="200">
+                         src="${model.avatar}" alt="" height="200" width="200">
                     <!-- Profile picture help block-->
                     <div class="small font-italic text-muted mb-4">JPG hoặc PNG không lớn hơn 5 MB</div>
                     <!-- Profile picture upload button-->

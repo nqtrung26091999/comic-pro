@@ -2,7 +2,7 @@
 <%@include file="/common/taglib.jsp" %>
 <html>
 <head>
-    <title>Category</title>
+    <title>Danh sách thể loại</title>
 </head>
 <body>
 <div class="pagetitle">
