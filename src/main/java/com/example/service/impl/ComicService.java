@@ -10,9 +10,11 @@ import com.example.dto.ComicDTO;
 import com.example.entity.CategoryEntity;
 import com.example.entity.ComicEntity;
 import com.example.entity.ContentEntity;
+import com.example.entity.UserEntity;
 import com.example.repository.CategoryRepository;
 import com.example.repository.ChapterRepository;
 import com.example.repository.ComicRepository;
+import com.example.repository.UserRepository;
 import com.example.service.IComicService;
 import com.example.service.awss3.AWSClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ public class ComicService implements IComicService {
     private CategoryRepository categoryRepository;
     @Autowired
     private ChapterRepository chapterRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private AWSClient awsClient;
 
@@ -106,9 +110,11 @@ public class ComicService implements IComicService {
     public List<ComicDTO> findAll() {
         List<ComicEntity> entityList = comicRepository.findAll();
         List<ComicDTO> result = new ArrayList<>();
-        for (ComicEntity entity : entityList) {
-            ComicDTO dto = comicConverter.toDTO(entity);
-            result.add(dto);
+        if (!entityList.isEmpty()) {
+            for (ComicEntity entity : entityList) {
+                ComicDTO dto = comicConverter.toDTO(entity);
+                result.add(dto);
+            }
         }
         return result;
     }
@@ -199,5 +205,17 @@ public class ComicService implements IComicService {
             }
         }
         return dtoList;
+    }
+
+    @Override
+    public void updateHistory(String username, Long comicId) {
+        List<ComicEntity> comics = new ArrayList<>();
+        UserEntity userEntity = userRepository.findOneByUserName(username);
+        ComicEntity comicEntity = comicRepository.findOne(comicId);
+        if (userEntity != null && comicEntity != null) {
+            comics.add(comicEntity);
+            userEntity.setComics(comics);
+            userRepository.save(userEntity);
+        }
     }
 }

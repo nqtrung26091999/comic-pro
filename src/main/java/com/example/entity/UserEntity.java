@@ -41,6 +41,18 @@ public class UserEntity extends BaseEntity {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userid"), inverseJoinColumns = @JoinColumn(name = "roleid"))
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_comic", joinColumns = @JoinColumn(name = "userid"), inverseJoinColumns = @JoinColumn(name = "comicid"))
+    private List<ComicEntity> comics = new ArrayList<>();
+
+    public List<ComicEntity> getComics() {
+        return comics;
+    }
+
+    public void setComics(List<ComicEntity> comics) {
+        this.comics = comics;
+    }
+
     public String getUserName() {
         return userName;
     }

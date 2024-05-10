@@ -24,4 +24,6 @@ public interface IComicService {
     void deleteComic(ComicDTO comicDTO);
 
     List<ComicDTO> findByCategoryId(Long categoryId);
+
+    void updateHistory(String username, Long comicId);
 }

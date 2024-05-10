@@ -40,8 +40,19 @@ public class ComicEntity extends BaseEntity {
     @JoinTable(name = "comic_category", joinColumns = @JoinColumn(name = "comicid"), inverseJoinColumns = @JoinColumn(name = "categoryid"))
     private List<CategoryEntity> categories = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "comics")
+    private List<UserEntity> users = new ArrayList<>();
+
     @OneToMany(mappedBy = "comic")
     private List<ChapterEntity> chapters;
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
+    }
 
     public List<ChapterEntity> getChapters() {
         return chapters;

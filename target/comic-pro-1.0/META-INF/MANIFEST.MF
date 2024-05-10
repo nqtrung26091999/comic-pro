@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
 Built-By: nqtru
-Build-Jdk: Oracle OpenJDK version 11
+Build-Jdk: Oracle OpenJDK version 22.0.1
 

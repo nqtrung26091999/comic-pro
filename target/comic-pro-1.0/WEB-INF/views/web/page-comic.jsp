@@ -1,5 +1,6 @@
 <%@ include file="/common/taglib.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import="com.example.util.SecurityUtils" %>
 <html>
 <head>
     <title>${model.name}</title>
@@ -16,7 +17,8 @@
             <div class="text-muted fst-italic mb-2">${model.createdDate}</div>
             <!-- Post categories-->
             <c:forEach items="${model.listCategory}" var="category">
-                <a class="badge bg-secondary text-decoration-none link-light" href="<c:url value="/home?category=${category.id}"/>">${category.name}</a>
+                <a class="badge bg-secondary text-decoration-none link-light"
+                   href="<c:url value="/home?category=${category.id}"/>">${category.name}</a>
             </c:forEach>
         </header>
         <!-- Preview image figure-->
@@ -135,15 +137,35 @@
     </section>
 </div>
 <script>
+    const username = "<%=SecurityUtils.getPrincipal().getUsername()%>"
     const cover = "${model.cover}";
     const name = "${model.name}";
     const comicId = "${model.id}";
     const chapterIdFirst = "${chapters[0].id}"
     const chapterNameFirst = "${chapters[0].name}"
 
-    $("#btnReadFirst").bind("click", function (e) {
-        handleStorage(chapterNameFirst, chapterIdFirst);
+    $("#btnReadFirst").bind("click", function () {
+        if (username != null) {
+            handleUpdateHistory(username, comicId);
+        } else {
+            handleStorage(chapterNameFirst, chapterIdFirst);
+        }
     })
+
+    function handleUpdateHistory(username, comicId) {
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("comicId", comicId);
+        $.ajax({
+            url: "/api/history",
+            method: "POST",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData
+        });
+    }
 
     function handleStorage(chapter, chapterId) {
         var obj = {};

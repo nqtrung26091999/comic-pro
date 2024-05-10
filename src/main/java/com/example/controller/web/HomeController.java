@@ -66,12 +66,14 @@ public class HomeController {
                 listAll = comicService.findAll();
             }
             List<ComicDTO> list = comicService.findAll();
-            comicDTO = comicService.findOneNewest();
-            ListIterator<ComicDTO> listIterator = list.listIterator();
-            while (listIterator.hasNext()) {
-                ComicDTO dto = listIterator.next();
-                if (Objects.equals(comicDTO.getId(), dto.getId())) {
-                    listIterator.remove();
+            if (!list.isEmpty()) {
+                comicDTO = comicService.findOneNewest();
+                ListIterator<ComicDTO> listIterator = list.listIterator();
+                while (listIterator.hasNext()) {
+                    ComicDTO dto = listIterator.next();
+                    if (Objects.equals(comicDTO.getId(), dto.getId())) {
+                        listIterator.remove();
+                    }
                 }
             }
             mav.addObject("comicNewest", comicDTO);

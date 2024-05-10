@@ -35,6 +35,12 @@ public class ComicAPI {
         service.deleteComic(comicDTO);
     }
 
+    @PostMapping(value = "/api/history")
+    public void updateHistory(@RequestParam("username") String username,
+                              @RequestParam("comicId") Long comicId) {
+        service.updateHistory(username, comicId);
+    }
+
 //    @PostMapping(value = "/api/comic-search")
 //    public ComicDTO searchComic(@RequestBody ComicDTO comicDTO) {
 //        ComicDTO dto = new ComicDTO();
