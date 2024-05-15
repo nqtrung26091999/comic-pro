@@ -25,5 +25,5 @@ public interface IComicService {
 
     List<ComicDTO> findByCategoryId(Long categoryId);
 
-    void updateHistory(String username, Long comicId);
+    void updateHistory(String username, Long chapterId);
 }

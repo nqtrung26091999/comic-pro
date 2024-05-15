@@ -4,8 +4,10 @@ import com.example.constant.AWSConstant;
 import com.example.constant.SystemConstant;
 import com.example.converter.RoleConverter;
 import com.example.converter.UserConverter;
+import com.example.dto.History;
 import com.example.dto.RoleDTO;
 import com.example.dto.UserDTO;
+import com.example.entity.ChapterEntity;
 import com.example.entity.RoleEntity;
 import com.example.entity.UserEntity;
 import com.example.repository.RoleRepository;
@@ -19,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -152,5 +152,21 @@ public class UserService implements IUserService {
             result.add(roleDTO);
         }
         return result;
+    }
+
+    @Override
+    public List<History> getMapListHistory(String username) {
+        List<ChapterEntity> chapters = userRepository.findOneByUserName(username).getChapters();
+        List<History> list = new ArrayList<>();
+        if (chapters != null) {
+            for (ChapterEntity entity : chapters) {
+                History history = new History();
+                history.setName(entity.getComic().getName());
+                history.setCover(entity.getComic().getCover());
+                history.setChapterName(entity.getName());
+                list.add(history);
+            }
+        }
+        return list;
     }
 }

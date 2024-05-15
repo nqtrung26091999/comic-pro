@@ -137,45 +137,44 @@
     </section>
 </div>
 <script>
-    const username = "<%=SecurityUtils.getPrincipal().getUsername()%>"
+    let username = "";
+    <security:authorize access="isAuthenticated()">
+    username = "<%=SecurityUtils.getPrincipal().getUsername()%>"
+    </security:authorize>
     const cover = "${model.cover}";
     const name = "${model.name}";
     const comicId = "${model.id}";
     const chapterIdFirst = "${chapters[0].id}"
     const chapterNameFirst = "${chapters[0].name}"
 
-    $("#btnReadFirst").bind("click", function () {
-        if (username != null) {
-            handleUpdateHistory(username, comicId);
-        } else {
-            handleStorage(chapterNameFirst, chapterIdFirst);
-        }
+    $("#btnReadFirst").bind("click", function() {
+        handleStorage(chapterNameFirst, chapterIdFirst);
     })
 
-    function handleUpdateHistory(username, comicId) {
-        const formData = new FormData();
-        formData.append("username", username);
-        formData.append("comicId", comicId);
-        $.ajax({
-            url: "/api/history",
-            method: "POST",
-            type: "POST",
-            contentType: false,
-            processData: false,
-            cache: false,
-            data: formData
-        });
-    }
-
-    function handleStorage(chapter, chapterId) {
-        var obj = {};
-        var key = name + "_" + chapter;
-        obj = {
-            cover,
-            name,
-            chapter,
+    function handleStorage(chapterName, chapterId) {
+        if (username != "") {
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("chapterId", chapterId);
+            $.ajax({
+                url: "/api/history",
+                method: "POST",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: formData
+            });
+        } else {
+            let obj = {};
+            let key = name + "_" + chapterName;
+            obj = {
+                cover,
+                name,
+                chapterName,
+            }
+            localStorage.setItem(key, JSON.stringify(obj));
         }
-        localStorage.setItem(key, JSON.stringify(obj));
         location.href = "/content?comic=" + comicId + "&chapter=" + chapterId;
     }
 </script>

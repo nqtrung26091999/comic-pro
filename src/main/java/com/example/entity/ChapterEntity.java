@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,17 @@ public class ChapterEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "chapter")
     private List<ContentEntity> contents;
+
+    @ManyToMany(mappedBy = "chapters")
+    private List<UserEntity> users = new ArrayList<>();
+
+    public List<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
+    }
 
     public List<ContentEntity> getContents() {
         return contents;

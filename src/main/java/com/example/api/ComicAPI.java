@@ -37,8 +37,8 @@ public class ComicAPI {
 
     @PostMapping(value = "/api/history")
     public void updateHistory(@RequestParam("username") String username,
-                              @RequestParam("comicId") Long comicId) {
-        service.updateHistory(username, comicId);
+                              @RequestParam("chapterId") Long chapterId) {
+        service.updateHistory(username, chapterId);
     }
 
 //    @PostMapping(value = "/api/comic-search")

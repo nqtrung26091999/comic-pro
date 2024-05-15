@@ -2,19 +2,20 @@ package com.example.api;
 
 import com.amazonaws.services.s3.model.Bucket;
 import com.example.constant.AWSConstant;
+import com.example.dto.History;
 import com.example.dto.UserDTO;
 import com.example.service.IUserService;
 import com.example.service.awss3.AWSClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController("userAPI")
 public class UserAPI {
@@ -42,9 +43,8 @@ public class UserAPI {
         return userService.updateUser(userDTO);
     }
 
-//    @PostMapping(value = "/api/test-upload")
-//    public String uploadFile(MultipartHttpServletRequest request) {
-////        String rs = awsClient.uploadFile(request.getFile("file"));
-//        return rs;
-//    }
+    @PostMapping(value = "/api/history-comic")
+    public List<History> getListHistoryComic(@RequestParam("username") String username) {
+        return userService.getMapListHistory(username);
+    }
 }

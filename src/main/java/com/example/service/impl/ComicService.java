@@ -7,10 +7,7 @@ import com.example.converter.CategoryConverter;
 import com.example.converter.ComicConverter;
 import com.example.dto.CategoryDTO;
 import com.example.dto.ComicDTO;
-import com.example.entity.CategoryEntity;
-import com.example.entity.ComicEntity;
-import com.example.entity.ContentEntity;
-import com.example.entity.UserEntity;
+import com.example.entity.*;
 import com.example.repository.CategoryRepository;
 import com.example.repository.ChapterRepository;
 import com.example.repository.ComicRepository;
@@ -24,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -208,14 +206,18 @@ public class ComicService implements IComicService {
     }
 
     @Override
-    public void updateHistory(String username, Long comicId) {
-        List<ComicEntity> comics = new ArrayList<>();
+    @Transactional
+    public void updateHistory(String username, Long chapterId) {
         UserEntity userEntity = userRepository.findOneByUserName(username);
-        ComicEntity comicEntity = comicRepository.findOne(comicId);
-        if (userEntity != null && comicEntity != null) {
-            comics.add(comicEntity);
-            userEntity.setComics(comics);
-            userRepository.save(userEntity);
+        ChapterEntity chapterEntity = chapterRepository.findOne(chapterId);
+        List<ChapterEntity> chapters = userEntity.getChapters();
+        for (ChapterEntity entity : chapters) {
+            if (Objects.equals(entity.getId(), chapterEntity.getId())) {
+                return;
+            }
         }
+        chapters.add(chapterEntity);
+        userEntity.setChapters(chapters);
+        userRepository.save(userEntity);
     }
 }

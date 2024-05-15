@@ -1,12 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp" %>
+<%@page import="com.example.util.SecurityUtils" %>
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title><dec:title default="Trang chủ" /></title>
+    <title><dec:title default="Trang chủ"/></title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="<c:url value='/template/web/assets/favicon.ico'/>"/>
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -96,6 +97,9 @@
     <%@include file="/common/web/footer.jsp" %>
 </div>
 <script type="text/javascript">
+    <security:authorize access="isAuthenticated()">
+    const username = "<%=SecurityUtils.getPrincipal().getUsername()%>";
+    </security:authorize>
     $(document).ready(function () {
         $("#myBtnLogin").click(function () {
             $("#myModalLogin").modal('toggle');
@@ -103,7 +107,13 @@
         $("#myBtnSignUp").click(function () {
             $("#myModalSignUp").modal('toggle');
         });
-        const items = {...localStorage};
+        var items;
+        <security:authorize access="isAnonymous()">
+        items = {...localStorage};
+        </security:authorize>
+        <security:authorize access="isAuthenticated()">
+        items = getHistoryFromApi(username);
+        </security:authorize>
         // $.each(items, function(index, value) {
         //     console.log(value);
         // });
@@ -122,6 +132,29 @@
             );
         }
     });
+
+    function getHistoryFromApi(username) {
+        let fromData = new FormData();
+        fromData.append("username", username);
+        var dataObject = {};
+        $.ajax({
+            url: "/api/history-comic",
+            method: "POST",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            async: false,
+            data: fromData,
+            dataType: "JSON",
+            success: rs => {
+                $.each(rs, function (i, v) {
+                    dataObject["" + v.name + "_" + v.chapterName + ""] = JSON.stringify(v);
+                })
+            }
+        });
+        return dataObject;
+    }
 
     function removeFromLocalStorage(key) {
         localStorage.removeItem(key);

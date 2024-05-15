@@ -1,11 +1,14 @@
 package com.example.service;
 
+import com.example.dto.History;
 import com.example.dto.RoleDTO;
 import com.example.dto.UserDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public interface IUserService {
     UserDTO registerUser(UserDTO dto);
@@ -25,4 +28,6 @@ public interface IUserService {
     List<UserDTO> searchUser(String str, Pageable pageable);
 
     List<RoleDTO> findAllRoles();
+
+    List<History> getMapListHistory(String username);
 }

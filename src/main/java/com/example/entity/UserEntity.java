@@ -42,15 +42,15 @@ public class UserEntity extends BaseEntity {
     private List<RoleEntity> roles = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_comic", joinColumns = @JoinColumn(name = "userid"), inverseJoinColumns = @JoinColumn(name = "comicid"))
-    private List<ComicEntity> comics = new ArrayList<>();
+    @JoinTable(name = "user_chapter", joinColumns = @JoinColumn(name = "userid"), inverseJoinColumns = @JoinColumn(name = "chapterid"))
+    private List<ChapterEntity> chapters = new ArrayList<>();
 
-    public List<ComicEntity> getComics() {
-        return comics;
+    public List<ChapterEntity> getChapters() {
+        return chapters;
     }
 
-    public void setComics(List<ComicEntity> comics) {
-        this.comics = comics;
+    public void setChapters(List<ChapterEntity> chapters) {
+        this.chapters = chapters;
     }
 
     public String getUserName() {
